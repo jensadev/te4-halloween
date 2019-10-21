@@ -77,7 +77,7 @@ loadImages(sources, function() {
     platforms.push(Enviroment(400, canvas.height - 198, 46, 32, 0, 0, images.pLeft))
     platforms.push(Enviroment(400, canvas.height - 168, 46, 96, 0, 0, images.upLeft))
     platforms.push(Enviroment(446, canvas.height - 198, 354, 32, 0, 0, images.pCenter, 'repeat'));
-    platforms.push(Enviroment(444, canvas.height - 168, 356, 200, 0, 0, images.upCenter, 'repeat'));
+    enviroments.push(Enviroment(444, canvas.height - 168, 356, 200, 0, 0, images.upCenter, 'repeat'));
 
     // ground
     platforms.push(Enviroment(0, canvas.height - 97, 500, 34, 0, 0, images.pCenter, 'repeat')); // g tile left
@@ -90,18 +90,25 @@ loadImages(sources, function() {
     enviroments.push(Enviroment(800, canvas.height - 80, canvas.width, 80, 0, 0, images.upCenter, 'repeat'));
 
     // backgrounds
-    hazards.push(Enviroment(0, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
-    enviroments.push(Enviroment(0, canvas.height - 260, canvas.width, 167, 0, 0, images.bg01, 'repeat'));
+    enviroments.push(Enviroment(0, canvas.height - 140, 240, 59, 0, 0, images.bg01));
+    enviroments.push(Enviroment(240, canvas.height - 140, 240, 59, 0, 0, images.bg01));
+
+    enviroments.push(Enviroment(780, canvas.height - 140, 240, 59, 0, 0, images.bg01));
     enviroments.push(Enviroment(820, canvas.height - 260, 70, 167, 0, 0, images.church));
     enviroments.push(Enviroment(300, canvas.height - 210, 128, 116, 0, 0, images.tree));
     enviroments.push(Enviroment(950, canvas.height - 210, 128, 116, 0, 0, images.tree));
-    enviroments.push(Enviroment(100, canvas.height - 210, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(200, canvas.height - 210, 128, 116, 0, 0, images.grave02));
-    enviroments.push(Enviroment(300, canvas.height - 210, 128, 116, 0, 0, images.grave03));
-
-
-    hazards.push(Enviroment(450, canvas.height - 224, 64, 32, 0, 0, images.fire, false, true, 1));
+    enviroments.push(Enviroment(100, canvas.height - 130, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(620, canvas.height - 232, 128, 116, 0, 0, images.grave02));
+    enviroments.push(Enviroment(250, canvas.height - 180, 128, 116, 0, 0, images.grave03));
+    enviroments.push(Enviroment(920, canvas.height - 130, 128, 116, 0, 0, images.grave01));
     enviroments.push(Enviroment(100, 100, 128, 96, 0, 0, images.moon, false, true));
+
+    // hazards
+    hazards.push(Enviroment(256, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
+    hazards.push(Enviroment(600, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
+    hazards.push(Enviroment(700, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
+    hazards.push(Enviroment(450, canvas.height - 224, 64, 32, 0, 0, images.fire, false, true, 1));
+
 
     player = Player(100, 200, 32, 32, images.blob, 4, 0, 0, 2);
 
