@@ -1,8 +1,16 @@
-let canvas = document.createElement('canvas');
-let ctx = canvas.getContext('2d');
-canvas.setAttribute("id", "game");
-canvas.width  = window.innerWidth;
-canvas.height = window.innerHeight;
+const HEIGHT = 600;
+const WIDTH = 800;
+
+let bgCanvas = document.createElement('canvas');
+let bgCtx = bgCanvas.getContext('2d');
+bgCanvas.setAttribute("id", "bg");
+bgCanvas.width  = WIDTH;
+bgCanvas.height = HEIGHT;
+let fgCanvas = document.createElement('canvas');
+let fgCtx = fgCanvas.getContext('2d');
+fgCanvas.setAttribute("id", "fg");
+fgCanvas.width  = WIDTH;
+fgCanvas.height = HEIGHT;
 
 let images = {};
 let gameRun = null;
@@ -68,46 +76,47 @@ function loadImages(sources, callback) {
 
 loadImages(sources, function() {
     // border
-    platforms.push(Enviroment(0, 0, 1, canvas.height, 0, 0, images.blob));
-    platforms.push(Enviroment(canvas.width, 0, 1, canvas.height, 0, 0, images.blob));
+    platforms.push(Enviroment(0, 0, 1, HEIGHT, 0, 0, images.blob));
+    platforms.push(Enviroment(WIDTH, 0, 1, HEIGHT, 0, 0, images.blob));
 
     // platforms
-    platforms.push(Enviroment(800, canvas.height - 198, 46, 32, 0, 0, images.pRight));
-    platforms.push(Enviroment(800, canvas.height - 168, 46, 96, 0, 0, images.upRight));
-    platforms.push(Enviroment(400, canvas.height - 198, 46, 32, 0, 0, images.pLeft))
-    platforms.push(Enviroment(400, canvas.height - 168, 46, 96, 0, 0, images.upLeft))
-    platforms.push(Enviroment(446, canvas.height - 198, 354, 32, 0, 0, images.pCenter, 'repeat'));
-    enviroments.push(Enviroment(444, canvas.height - 168, 356, 200, 0, 0, images.upCenter, 'repeat'));
+    // platforms.push(Enviroment(800, 402, 46, 32, 0, 0, images.pRight));
+    // platforms.push(Enviroment(800, 468, 46, 96, 0, 0, images.upRight));
+    // platforms.push(Enviroment(400, 402, 46, 32, 0, 0, images.pLeft))
+    // platforms.push(Enviroment(400, 468, 46, 96, 0, 0, images.upLeft))
+    // platforms.push(Enviroment(446, 402, 354, 32, 0, 0, images.pCenter, false, 'repeat'));
+    // enviroments.push(Enviroment(444, 468, 356, 200, 0, 0, images.upCenter, false, 'repeat'));
 
     // ground
-    platforms.push(Enviroment(0, canvas.height - 97, 500, 34, 0, 0, images.pCenter, 'repeat')); // g tile left
-    platforms.push(Enviroment(800, canvas.height - 97, canvas.width, 34, 0, 0, images.pCenter, 'repeat')); // g tile right
-    platforms.push(Enviroment(500, canvas.height - 97, 46, 32, 0, 0, images.pRight));
-    enviroments.push(Enviroment(500, canvas.height - 80, 500, 96, 0, 0, images.upRight));
-    platforms.push(Enviroment(760, canvas.height - 97, 46, 32, 0, 0, images.pLeft));
-    enviroments.push(Enviroment(760, canvas.height - 80, 500, 96, 0, 0, images.upLeft));
-    enviroments.push(Enviroment(0, canvas.height - 80, 500, 80, 0, 0, images.upCenter, 'repeat'));
-    enviroments.push(Enviroment(800, canvas.height - 80, canvas.width, 80, 0, 0, images.upCenter, 'repeat'));
+    platforms.push(Enviroment(0, 510, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile left
+    // platforms.push(Enviroment(800, 503, WIDTH, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile right
+    platforms.push(Enviroment(340, 510, 46, 32, 0, 0, images.pRight));
+    enviroments.push(Enviroment(340, 576, 45, 96, 0, 0, images.upRight));
+    // platforms.push(Enviroment(760, 503, 46, 32, 0, 0, images.pLeft));
+    // enviroments.push(Enviroment(760, 520, 500, 96, 0, 0, images.upLeft));
+    enviroments.push(Enviroment(0, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
+    // enviroments.push(Enviroment(800, 520, WIDTH, 80, 0, 0, images.upCenter, false, 'repeat'));
 
     // backgrounds
-    enviroments.push(Enviroment(0, canvas.height - 140, 240, 59, 0, 0, images.bg01));
-    enviroments.push(Enviroment(240, canvas.height - 140, 240, 59, 0, 0, images.bg01));
-
-    enviroments.push(Enviroment(780, canvas.height - 140, 240, 59, 0, 0, images.bg01));
-    enviroments.push(Enviroment(820, canvas.height - 260, 70, 167, 0, 0, images.church));
-    enviroments.push(Enviroment(300, canvas.height - 210, 128, 116, 0, 0, images.tree));
-    enviroments.push(Enviroment(950, canvas.height - 210, 128, 116, 0, 0, images.tree));
-    enviroments.push(Enviroment(100, canvas.height - 130, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(620, canvas.height - 232, 128, 116, 0, 0, images.grave02));
-    enviroments.push(Enviroment(250, canvas.height - 180, 128, 116, 0, 0, images.grave03));
-    enviroments.push(Enviroment(920, canvas.height - 130, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(100, 100, 128, 96, 0, 0, images.moon, false, true));
+    enviroments.push(Enviroment(0, 472, WIDTH, 59, 0, 0, images.bg01, false, 'repeat'));
+    enviroments.push(Enviroment(820, 340, 70, 167, 0, 0, images.church));
+    enviroments.push(Enviroment(300, 390, 128, 116, 0, 0, images.tree));
+    enviroments.push(Enviroment(950, 390, 128, 116, 0, 0, images.tree));
+    enviroments.push(Enviroment(100, 470, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(620, 368, 128, 116, 0, 0, images.grave02));
+    enviroments.push(Enviroment(250, 420, 128, 116, 0, 0, images.grave03));
+    enviroments.push(Enviroment(920, 470, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(40, 120, 128, 96, 0, 0, images.moon, 0.4, false, true));
 
     // hazards
-    hazards.push(Enviroment(256, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
-    hazards.push(Enviroment(600, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
-    hazards.push(Enviroment(700, canvas.height - 48, 128, 48, 0, 0, images.water, false, true, 4));
-    hazards.push(Enviroment(450, canvas.height - 224, 64, 32, 0, 0, images.fire, false, true, 1));
+    hazards.push(Enviroment(0, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(128, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(256, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(384, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(512, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(640, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(768, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(450, 376, 64, 32, 0, 0, images.fire, false, false, true, 1));
 
 
     player = Player(100, 200, 32, 32, images.blob, 4, 0, 0, 2);
@@ -158,18 +167,9 @@ function step(timestamp) {
     player.velocityY += gravity;
     player.grounded = false;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    bgCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
     enviroments.forEach(element => {
-        element.draw();
-    });
-
-    hazards.forEach(element => {
-        let dir = colCheck(player, element);
-        if (dir) {
-            health -= element.hazard;
-            console.log(health)
-        }
         element.draw();
     });
 
@@ -182,6 +182,15 @@ function step(timestamp) {
             player.jumping = false;
         } else if (dir === "t") {
             player.velocityY *= -1;
+        }
+        element.draw();
+    });
+
+    hazards.forEach(element => {
+        let dir = colCheck(player, element);
+        if (dir) {
+            health -= element.hazard;
+            console.log(health)
         }
         element.draw();
     });
@@ -239,7 +248,7 @@ function step(timestamp) {
     gameRun = window.requestAnimationFrame(step);
 }
 
-const Enviroment = function(x, y, width, height, offsetX, offsetY, img, tile, animate, hazard)
+const Enviroment = function(x, y, width, height, offsetX, offsetY, img, alpha, tile, animate, hazard)
 {
     const enviroment = {};
     enviroment.x = x;
@@ -250,26 +259,29 @@ const Enviroment = function(x, y, width, height, offsetX, offsetY, img, tile, an
     enviroment.offsetY = 0 || offsetY;
     enviroment.img = img;
     enviroment.tile = tile;
-    enviroment.pattern = tile ? ctx.createPattern(img, tile) : false;
+    enviroment.pattern = tile ? bgCtx.createPattern(img, tile) : false;
     enviroment.animate = false || animate;
     enviroment.hazard = false || hazard;
+    enviroment.alpha = false || alpha;
     enviroment.draw = function()
     {
-        if (this.tile && this.animate) {
-
-        } else if (this.tile) {
-            ctx.fillStyle = this.pattern;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+        if (this.tile) {
+            bgCtx.fillStyle = this.pattern;
+            bgCtx.fillRect(this.x, this.y, this.width, this.height);
         } else if (this.animate) {
-            ctx.drawImage(this.img,
+            if (this.alpha) {
+                bgCtx.globalAlpha = this.alpha;
+            bgCtx.drawImage(this.img,
                 this.offsetX + enviromentLoop[enviromentLoopCurrentIndex] * this.width,
                 this.offsetY,
                 this.width, this.height,
                 this.x, this.y,
                 this.width, this.height);
+            }
         } else {
-            ctx.drawImage(this.img, this.offsetX, this.offsetY, this.width, this.height, this.x, this.y, this.width, this.height);
+            bgCtx.drawImage(this.img, this.offsetX, this.offsetY, this.width, this.height, this.x, this.y, this.width, this.height);
         }
+        bgCtx.globalAlpha = 1;
     }
     return enviroment;
 }
@@ -305,7 +317,8 @@ const Player = function(x, y, width, height, img, speed, offsetX, offsetY, scale
 
     player.draw = function()
     {
-        ctx.drawImage(this.img,
+        fgCtx.clearRect(this.x, this.y, this.width, this.height * 2);
+        fgCtx.drawImage(this.img,
             this.imgOffsetX + this.moveLoop[this.currentLoopIndex] * this.width,
             this.imgOffsetY + this.currentDirection * this.height,
             this.width, this.height,
@@ -360,12 +373,5 @@ document.addEventListener("keyup", function(e) {
 
 
 let body = document.getElementsByTagName('body')[0];
-body.appendChild(canvas);
-
-window.onresize = () => {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight; 
-}
-window.onscroll = () => {
-    canvas.setAttribute("style", "top: " + window.pageYOffset + "px");
-}
+body.appendChild(bgCanvas);
+body.appendChild(fgCanvas);
