@@ -1,12 +1,14 @@
 body {
     overflow: hidden;
     background-color: #b3b9d1;
+    display: flex;
 }
-
-canvas {
+main {
+    margin: 0 auto;
+    width: 80%;
+}
+.game {
     position: absolute;
-    top: 0;
-    left: 0;
     margin-left: auto; 
     margin-right: auto; 
 }
