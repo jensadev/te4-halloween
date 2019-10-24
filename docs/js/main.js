@@ -14,7 +14,7 @@ fgCanvas.setAttribute("class", "game");
 fgCanvas.width  = WIDTH;
 fgCanvas.height = HEIGHT;
 let playerCanvas = document.createElement('canvas');
-let playerCtx = fgCanvas.getContext('2d');
+let playerCtx = playerCanvas.getContext('2d');
 playerCanvas.setAttribute("id", "player");
 playerCanvas.setAttribute("class", "game");
 playerCanvas.width  = WIDTH;
@@ -96,42 +96,30 @@ function createPattern(img, width, height, repeat, offsetX, offsetY)
 }
 
 loadImages(sources, function() {
-    // create patterns
-    // offCanvas.width  = WIDTH;
-    // offCanvas.height = 64;
-    // // offCtx.drawImage(images.bg01, 0, 5, 240, 59);
-    // // pattern = bgCtx.createPattern(offCanvas, 'repeat');
-    // pattern = offCtx.createPattern(images.bg01, 'repeat-x');
-    // offCtx.fillStyle = pattern;
-    // offCtx.fillRect(0, 5, WIDTH, 59);
-
-
     // border
     platforms.push(Enviroment(bgCtx, 0, 0, 1, HEIGHT, 0, 0, images.blob));
     platforms.push(Enviroment(bgCtx, WIDTH, 0, 1, HEIGHT, 0, 0, images.blob));
 
     // platforms
     platforms.push(Enviroment(fgCtx, 340, 468, 46, 32, 0, 0, images.pLeft));
-    enviroments.push(Enviroment(fgCtx, 341, 500, 46, 96, 0, 0, images.upLeft));
+    platforms.push(Enviroment(fgCtx, 341, 500, 46, 96, 0, 0, images.upLeft));
     platforms.push(Enviroment(fgCtx, 540, 468, 46, 32, 0, 0, images.pRight));
-    enviroments.push(Enviroment(fgCtx, 540, 500, 46, 96, 0, 0, images.upRight));
+    platforms.push(Enviroment(fgCtx, 540, 500, 46, 96, 0, 0, images.upRight));
     let pc = new Image();
     pc.src = createPattern(images.pCenter, 154, 32, "repeat-x", 0, 0);
     platforms.push(Enviroment(fgCtx, 386, 468, 154, 32, 0, 0, pc));
-    enviroments.push(Enviroment(fgCtx, 386, 500, 154, 200, 0, 0, images.upCenter, false, 'repeat'));
 
     // ground
-    platforms.push(Enviroment(fgCtx, 0, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile left
+    platforms.push(Enviroment(bgCtx, 0, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile left
     platforms.push(Enviroment(fgCtx, 340, 544, 46, 32, 0, 0, images.pRight));
-    enviroments.push(Enviroment(fgCtx, 340, 576, 45, 96, 0, 0, images.upRight));
-    enviroments.push(Enviroment(fgCtx, 0, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
+    enviroments.push(Enviroment(bgCtx, 340, 576, 45, 96, 0, 0, images.upRight));
+    enviroments.push(Enviroment(bgCtx, 0, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
     platforms.push(Enviroment(fgCtx, 540, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile right
     platforms.push(Enviroment(fgCtx, 508, 544, 46, 32, 0, 0, images.pLeft));
-    enviroments.push(Enviroment(fgCtx, 508, 576, 500, 96, 0, 0, images.upLeft));
-    enviroments.push(Enviroment(fgCtx, 508, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
+    enviroments.push(Enviroment(bgCtx, 508, 576, 500, 96, 0, 0, images.upLeft));
+    enviroments.push(Enviroment(bgCtx, 508, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
 
     // backgrounds
-    //enviroments.push(Enviroment(0, 472, WIDTH, 59, 0, 0, images.bg01, false, 'repeat'));
     let bg = new Image();
     bg.src = createPattern(images.bg01, WIDTH, 59, "repeat-x", 0, 0);
     enviroments.push(Enviroment(bgCtx, 0, 500, WIDTH, 64, 0, 0, bg));
@@ -143,7 +131,7 @@ loadImages(sources, function() {
     enviroments.push(Enviroment(bgCtx, 564, 516, 128, 116, 0, 0, images.grave01));
     enviroments.push(Enviroment(bgCtx, 500, 434, 128, 116, 0, 0, images.grave02));
     enviroments.push(Enviroment(bgCtx, 120, 464, 128, 116, 0, 0, images.grave03));
-    enviroments.push(Enviroment(bgCtx, 40, 120, 128, 96, 0, 0, images.moon, 0.4, false, true));
+    hazards.push(Enviroment(fgCtx, 40, 120, 128, 96, 0, 0, images.moon, 0.4, false, true));
     platforms.push(Enviroment(fgCtx, 460, 474, 23, 124, 0, 0, images.ladder));
 
     // hazards
@@ -155,7 +143,7 @@ loadImages(sources, function() {
     hazards.push(Enviroment(fgCtx, 640, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
     hazards.push(Enviroment(fgCtx, 768, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
 
-    hazards.push(Enviroment(fgCtx, 390, 440, 64, 32, 0, 0, images.fire, false, false, true, 1));
+    hazards.push(Enviroment(fgCtx, 386, 444, 64, 32, 0, 0, images.fire, 1, false, true, 1));
 
     player = Player(playerCtx, 540, 400, 32, 32, images.blob, 4, 0, 0, 2);
 
@@ -211,7 +199,7 @@ function step(timestamp) {
     player.velocityY += gravity;
     player.grounded = false;
 
-    //fgCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    fgCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
     platforms.forEach(element => {
         let dir = colCheck(player, element);
@@ -313,12 +301,12 @@ const Enviroment = function(ctx, x, y, width, height, offsetX, offsetY, img, alp
         } else if (this.animate) {
             if (this.alpha) {
                 this.ctx.globalAlpha = this.alpha;
-            this.ctx.drawImage(this.img,
-                this.offsetX + enviromentLoop[enviromentLoopCurrentIndex] * this.width,
-                this.offsetY,
-                this.width, this.height,
-                this.x, this.y,
-                this.width, this.height);
+                this.ctx.drawImage(this.img,
+                    this.offsetX + enviromentLoop[enviromentLoopCurrentIndex] * this.width,
+                    this.offsetY,
+                    this.width, this.height,
+                    this.x, this.y,
+                    this.width, this.height);
             }
         } else {
             this.ctx.drawImage(this.img, this.offsetX, this.offsetY, this.width, this.height, this.x, this.y, this.width, this.height);
@@ -360,7 +348,7 @@ const Player = function(ctx, x, y, width, height, img, speed, offsetX, offsetY, 
 
     player.draw = function()
     {
-        this.ctx.clearRect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+        this.ctx.clearRect(this.x, this.y, this.width * this.scale, this.height * this.scale + this.height);
         this.ctx.drawImage(this.img,
             this.imgOffsetX + this.moveLoop[this.currentLoopIndex] * this.width,
             this.imgOffsetY + this.currentDirection * this.height,
