@@ -13,6 +13,12 @@ fgCanvas.setAttribute("id", "fg");
 fgCanvas.setAttribute("class", "game");
 fgCanvas.width  = WIDTH;
 fgCanvas.height = HEIGHT;
+let playerCanvas = document.createElement('canvas');
+let playerCtx = fgCanvas.getContext('2d');
+playerCanvas.setAttribute("id", "player");
+playerCanvas.setAttribute("class", "game");
+playerCanvas.width  = WIDTH;
+playerCanvas.height = HEIGHT;
 
 let offCanvas = document.createElement('canvas');
 let offCtx = offCanvas.getContext('2d');
@@ -101,57 +107,61 @@ loadImages(sources, function() {
 
 
     // border
-    platforms.push(Enviroment(0, 0, 1, HEIGHT, 0, 0, images.blob));
-    platforms.push(Enviroment(WIDTH, 0, 1, HEIGHT, 0, 0, images.blob));
+    platforms.push(Enviroment(bgCtx, 0, 0, 1, HEIGHT, 0, 0, images.blob));
+    platforms.push(Enviroment(bgCtx, WIDTH, 0, 1, HEIGHT, 0, 0, images.blob));
 
     // platforms
-    platforms.push(Enviroment(340, 468, 46, 32, 0, 0, images.pLeft));
-    platforms.push(Enviroment(341, 500, 46, 96, 0, 0, images.upLeft));
-    platforms.push(Enviroment(540, 468, 46, 32, 0, 0, images.pRight));
-    platforms.push(Enviroment(540, 500, 46, 96, 0, 0, images.upRight));
+    platforms.push(Enviroment(fgCtx, 340, 468, 46, 32, 0, 0, images.pLeft));
+    enviroments.push(Enviroment(fgCtx, 341, 500, 46, 96, 0, 0, images.upLeft));
+    platforms.push(Enviroment(fgCtx, 540, 468, 46, 32, 0, 0, images.pRight));
+    enviroments.push(Enviroment(fgCtx, 540, 500, 46, 96, 0, 0, images.upRight));
     let pc = new Image();
     pc.src = createPattern(images.pCenter, 154, 32, "repeat-x", 0, 0);
-    platforms.push(Enviroment(386, 468, 154, 32, 0, 0, pc));
-    platforms.push(Enviroment(386, 500, 154, 200, 0, 0, images.upCenter, false, 'repeat'));
+    platforms.push(Enviroment(fgCtx, 386, 468, 154, 32, 0, 0, pc));
+    enviroments.push(Enviroment(fgCtx, 386, 500, 154, 200, 0, 0, images.upCenter, false, 'repeat'));
 
     // ground
-    platforms.push(Enviroment(0, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile left
-    platforms.push(Enviroment(340, 544, 46, 32, 0, 0, images.pRight));
-    enviroments.push(Enviroment(340, 576, 45, 96, 0, 0, images.upRight));
-    enviroments.push(Enviroment(0, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
-    platforms.push(Enviroment(540, 544, WIDTH, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile right
-    platforms.push(Enviroment(508, 544, 46, 32, 0, 0, images.pLeft));
-    enviroments.push(Enviroment(508, 576, 500, 96, 0, 0, images.upLeft));
-    enviroments.push(Enviroment(508, 520, WIDTH, 80, 0, 0, images.upCenter, false, 'repeat'));
+    platforms.push(Enviroment(fgCtx, 0, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile left
+    platforms.push(Enviroment(fgCtx, 340, 544, 46, 32, 0, 0, images.pRight));
+    enviroments.push(Enviroment(fgCtx, 340, 576, 45, 96, 0, 0, images.upRight));
+    enviroments.push(Enviroment(fgCtx, 0, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
+    platforms.push(Enviroment(fgCtx, 540, 544, 340, 34, 0, 0, images.pCenter, false, 'repeat')); // g tile right
+    platforms.push(Enviroment(fgCtx, 508, 544, 46, 32, 0, 0, images.pLeft));
+    enviroments.push(Enviroment(fgCtx, 508, 576, 500, 96, 0, 0, images.upLeft));
+    enviroments.push(Enviroment(fgCtx, 508, 576, 340, 96, 0, 0, images.upCenter, false, 'repeat'));
 
     // backgrounds
     //enviroments.push(Enviroment(0, 472, WIDTH, 59, 0, 0, images.bg01, false, 'repeat'));
     let bg = new Image();
     bg.src = createPattern(images.bg01, WIDTH, 59, "repeat-x", 0, 0);
-    enviroments.push(Enviroment(0, 500, WIDTH, 64, 0, 0, bg));
-    enviroments.push(Enviroment(550, 376, 70, 167, 0, 0, images.church));
-    enviroments.push(Enviroment(200, 426, 128, 116, 0, 0, images.tree));
-    enviroments.push(Enviroment(710, 426, 128, 116, 0, 0, images.tree));
-    enviroments.push(Enviroment(30, 516, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(274, 516, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(564, 516, 128, 116, 0, 0, images.grave01));
-    enviroments.push(Enviroment(500, 434, 128, 116, 0, 0, images.grave02));
-    enviroments.push(Enviroment(120, 464, 128, 116, 0, 0, images.grave03));
-    enviroments.push(Enviroment(40, 120, 128, 96, 0, 0, images.moon, 0.4, false, true));
-    platforms.push(Enviroment(460, 474, 23, 124, 0, 0, images.ladder));
+    enviroments.push(Enviroment(bgCtx, 0, 500, WIDTH, 64, 0, 0, bg));
+    enviroments.push(Enviroment(bgCtx, 550, 376, 70, 167, 0, 0, images.church));
+    enviroments.push(Enviroment(bgCtx, 200, 426, 128, 116, 0, 0, images.tree));
+    enviroments.push(Enviroment(bgCtx, 710, 426, 128, 116, 0, 0, images.tree));
+    enviroments.push(Enviroment(bgCtx, 30, 516, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(bgCtx, 274, 516, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(bgCtx, 564, 516, 128, 116, 0, 0, images.grave01));
+    enviroments.push(Enviroment(bgCtx, 500, 434, 128, 116, 0, 0, images.grave02));
+    enviroments.push(Enviroment(bgCtx, 120, 464, 128, 116, 0, 0, images.grave03));
+    enviroments.push(Enviroment(bgCtx, 40, 120, 128, 96, 0, 0, images.moon, 0.4, false, true));
+    platforms.push(Enviroment(fgCtx, 460, 474, 23, 124, 0, 0, images.ladder));
 
     // hazards
-    hazards.push(Enviroment(0, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(128, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(256, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(384, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(512, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(640, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
-    hazards.push(Enviroment(768, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 0, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 128, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 256, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 384, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 512, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 640, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
+    hazards.push(Enviroment(fgCtx, 768, 552, 128, 48, 0, 0, images.water, 0.6, false, true, 4));
 
-    hazards.push(Enviroment(390, 440, 64, 32, 0, 0, images.fire, false, false, true, 1));
+    hazards.push(Enviroment(fgCtx, 390, 440, 64, 32, 0, 0, images.fire, false, false, true, 1));
 
-    player = Player(100, 200, 32, 32, images.blob, 4, 0, 0, 2);
+    player = Player(playerCtx, 540, 400, 32, 32, images.blob, 4, 0, 0, 2);
+
+    enviroments.forEach(element => {
+        element.draw();
+    });
 
     window.requestAnimationFrame(step);
 });
@@ -170,24 +180,26 @@ function colCheck(shapeA, shapeB) {
         if (oX >= oY) {
             if (vY > 0) {
                 colDir = "t";
-                if(!shapeB.hazard)
-                    shapeA.y += oY;
-            } else {
+                // if(!shapeB.hazard)
+                //     shapeA.y += oY;
+            }
+            else {
                 colDir = "b";
-                if(!shapeB.hazard)
-                    shapeA.y -= oY;
+                // if(!shapeB.hazard)
+                //     shapeA.y -= oY;
             }
-        } else {
-            if (vX > 0) {
-                colDir = "l";
-                if(!shapeB.hazard)
-                    shapeA.x += oX;
-            } else {
-                colDir = "r";
-                if(!shapeB.hazard)
-                    shapeA.x -= oX;
-            }
-        }
+        } 
+        // else {
+        //     if (vX > 0) {
+        //         colDir = "l";
+        //         if(!shapeB.hazard)
+        //             shapeA.x += oX;
+        //     } else {
+        //         colDir = "r";
+        //         if(!shapeB.hazard)
+        //             shapeA.x -= oX;
+        //     }
+        // }
     }
     return colDir;
 }
@@ -199,17 +211,14 @@ function step(timestamp) {
     player.velocityY += gravity;
     player.grounded = false;
 
-    bgCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    enviroments.forEach(element => {
-        element.draw();
-    });
+    //fgCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
     platforms.forEach(element => {
         let dir = colCheck(player, element);
-        if (dir === "l" || dir === "r") {
-            player.jumping = false;
-        } else if (dir === "b") {
+        // if (dir === "l" || dir === "r") {
+        //     player.jumping = false;
+        // } else 
+        if (dir === "b") {
             player.grounded = true;
             player.jumping = false;
         } else if (dir === "t") {
@@ -280,7 +289,7 @@ function step(timestamp) {
     gameRun = window.requestAnimationFrame(step);
 }
 
-const Enviroment = function(x, y, width, height, offsetX, offsetY, img, alpha, tile, animate, hazard)
+const Enviroment = function(ctx, x, y, width, height, offsetX, offsetY, img, alpha, tile, animate, hazard)
 {
     const enviroment = {};
     enviroment.x = x;
@@ -295,15 +304,16 @@ const Enviroment = function(x, y, width, height, offsetX, offsetY, img, alpha, t
     enviroment.animate = false || animate;
     enviroment.hazard = false || hazard;
     enviroment.alpha = false || alpha;
+    enviroment.ctx = ctx;
     enviroment.draw = function()
     {
         if (this.tile) {
-            bgCtx.fillStyle = this.pattern;
-            bgCtx.fillRect(this.x, this.y, this.width, this.height);
+            this.ctx.fillStyle = this.pattern;
+            this.ctx.fillRect(this.x, this.y, this.width, this.height);
         } else if (this.animate) {
             if (this.alpha) {
-                bgCtx.globalAlpha = this.alpha;
-            bgCtx.drawImage(this.img,
+                this.ctx.globalAlpha = this.alpha;
+            this.ctx.drawImage(this.img,
                 this.offsetX + enviromentLoop[enviromentLoopCurrentIndex] * this.width,
                 this.offsetY,
                 this.width, this.height,
@@ -311,14 +321,14 @@ const Enviroment = function(x, y, width, height, offsetX, offsetY, img, alpha, t
                 this.width, this.height);
             }
         } else {
-            bgCtx.drawImage(this.img, this.offsetX, this.offsetY, this.width, this.height, this.x, this.y, this.width, this.height);
+            this.ctx.drawImage(this.img, this.offsetX, this.offsetY, this.width, this.height, this.x, this.y, this.width, this.height);
         }
-        bgCtx.globalAlpha = 1;
+        this.ctx.globalAlpha = 1;
     }
     return enviroment;
 }
 
-const Player = function(x, y, width, height, img, speed, offsetX, offsetY, scale) {
+const Player = function(ctx, x, y, width, height, img, speed, offsetX, offsetY, scale) {
     const player = {};
     player.x = x;
     player.y = y;
@@ -339,6 +349,7 @@ const Player = function(x, y, width, height, img, speed, offsetX, offsetY, scale
     player.velocityY = 0;
     player.velocityX = 0;
     player.grounded = false;
+    player.ctx = ctx;
 
     player.move = function (deltaX, deltaY, direction)
     {
@@ -349,8 +360,8 @@ const Player = function(x, y, width, height, img, speed, offsetX, offsetY, scale
 
     player.draw = function()
     {
-        fgCtx.clearRect(this.x, this.y, this.width, this.height * 2);
-        fgCtx.drawImage(this.img,
+        this.ctx.clearRect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+        this.ctx.drawImage(this.img,
             this.imgOffsetX + this.moveLoop[this.currentLoopIndex] * this.width,
             this.imgOffsetY + this.currentDirection * this.height,
             this.width, this.height,
@@ -407,3 +418,4 @@ document.addEventListener("keyup", function(e) {
 let main = document.getElementsByTagName('main')[0];
 main.appendChild(bgCanvas);
 main.appendChild(fgCanvas);
+main.appendChild(playerCanvas);
